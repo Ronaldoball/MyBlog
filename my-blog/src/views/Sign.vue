@@ -63,12 +63,41 @@ export default {
 
   methods: {
     submit() {
-      let data = {
-        username: this.signForm.name,
-        password: this.signForm.password,
-        email: this.signForm.email
-      };
-      this.$api.submitInfo(data).then(data => {});
+      if (
+        this.signForm.name !== "" &&
+        this.signForm.password !== "" &&
+        this.signForm.email !== ""
+      ) {
+        let data = {
+          username: this.signForm.name,
+          password: this.signForm.password,
+          email: this.signForm.email
+        };
+        this.$api.submitInfo(data).then(data => {
+          if (data.result === "success") {
+            this.$message({
+              message: "注册成功！",
+              type: "success"
+            });
+            this.$router.push({ path: "/login" });
+          } else if (data.result === "isExist") {
+            this.$message({
+              message: "用户已存在，请重新输入！",
+              type: "warning"
+            });
+          } else if (data.result === "failed") {
+            this.$message({
+              message: "注册失败！",
+              type: "warning"
+            });
+          }
+        });
+      } else {
+        this.$message({
+          message: "用户信息不能为空！",
+          type: "warning"
+        });
+      }
     },
     toLogin() {
       this.$router.push({ path: "/login" });

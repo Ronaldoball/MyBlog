@@ -18,11 +18,7 @@
         </div>
       </div>
     </div>
-    <!-- <el-button @click="getMsg">获取MSG</el-button>
-    <div>{{Msg}}</div>-->
-    <div class="mian-content">
-      <div class="content-msg">{{Msg}}</div>
-    </div>
+    <div class="mian-content"></div>
   </div>
 </template>
 
@@ -35,9 +31,8 @@ export default {
   },
   data() {
     return {
-      Msg: "",
+      // Msg: "",
       TabList: ["首页", "关于", "Blog", "联系"],
-      // imgSrc: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
       imgSrc:
         "http://www.onegreen.net/QQ/UploadFiles/201301/2013010610372053.jpg"
     };
@@ -63,6 +58,7 @@ export default {
         });
       } else if (data === 3) {
         this.Msg = "";
+        this.$router.push({ path: "/editor" });
       }
     }
   }

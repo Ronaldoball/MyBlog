@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import Sign from '@/views/Sign'
+import Editor from '@/views/Editor'
 
 Vue.use(Router)
 
@@ -31,6 +32,13 @@ export default new Router({
       name: 'Index',
       components: {
         main: Home
+      }
+    },
+    {
+      path: '/editor',
+      name: 'Editor',
+      components: {
+        main: Editor
       }
     }
   ]
