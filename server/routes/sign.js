@@ -12,19 +12,9 @@ router.post("/", function(req, res, next) {
     password: query.password,
     email: query.email
   };
-  // api.save(user)
-  //       .then(result => {
-  //           console.log(result);
-  //       });
+  console.log(user);
 
-  api.find({}).then(result => {
-    console.log(result);
-    res.json(result[0]);
-  });
-
-  //res.json(retData);
-
-  // res.send('hello , world');
+  
 });
 
 module.exports = router;
