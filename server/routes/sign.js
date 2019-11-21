@@ -13,8 +13,25 @@ router.post("/", function(req, res, next) {
     email: query.email
   };
   console.log(user);
-
-  
+  api.find({ username: user.username }).then(result => {
+    if (result.length > 0) {
+      res.json({
+        result: "isExist"
+      });
+    } else {
+      api.save(user).then(result => {
+        if (result) {
+          res.json({
+            result: "success"
+          });
+        } else {
+          res.json({
+            result: "failed"
+          });
+        }
+      });
+    }
+  });
 });
 
 module.exports = router;
