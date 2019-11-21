@@ -28,5 +28,13 @@ export default {
 
   getMsg(data) {
     return instance.post("getMsg", data);
+  },
+
+  login(data) {
+    return instance.post("login", data);
+  },
+
+  submitInfo(data) {
+    return instance.post("submitInfo", data);
   }
 }

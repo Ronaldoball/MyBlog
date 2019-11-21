@@ -1,20 +1,19 @@
 <template>
   <div class="content">
-    <div class="content-login" v-if="islogin">
-      <el-form :model="loginForm" :rules="rules" :ref="loginForm" class="cls-loginForm">
+    <div class="content-login">
+      <el-form :model="loginForm" :rules="loginRules" :ref="loginForm" class="cls-loginForm">
         <el-form-item label="账户" prop="name">
-          <el-input v-model="loginForm.name"></el-input>
+          <el-input placeholder="请输入账户名" v-model="loginForm.name"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="loginForm.password"></el-input>
+          <el-input placeholder="请输入密码" v-model="loginForm.password" show-password></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="login">登录</el-button>
-          <el-button @click="resign">注册</el-button>
+          <el-button @click="toSign">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <div class="content-sign" v-if="!islogin"></div>
   </div>
 </template>
 
@@ -23,20 +22,19 @@ export default {
   name: "Login",
   data() {
     return {
-      islogin: true,
       loginForm: {
         name: "",
         password: ""
       },
 
-      rules: {
+      loginRules: {
         name: [
-          { required: true, message: "请输入活动名称", trigger: "blur" },
+          { required: true, message: "请输入账号名", trigger: "blur" },
           { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ],
 
         password: [
-          { required: true, message: "请输入活动名称", trigger: "blur" },
+          { required: true, message: "请输入密码", trigger: "blur" },
           { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ]
       }
@@ -45,10 +43,38 @@ export default {
 
   methods: {
     login() {
-      this.$router.push({path:'/index'});
+      let data = {
+        username: this.loginForm.name,
+        password: this.loginForm.password
+      };
+      console.log(data);
+
+      this.$api.login(data).then(data => {
+        console.log(data);
+        if (data.result === "success") {
+          this.$message({
+            message: "登录成功！",
+            type: "success"
+          });
+          this.$router.push({ path: "/index" });
+        } else if (data.result === "passwordError") {
+          this.$message({
+            message: "密码输入错误，请重新输入！",
+            type: "warning"
+          });
+        } else if (data.result === "userNotExist") {
+          this.$message({
+            message: "用户不存在，请重新输入！",
+            type: "warning"
+          });
+        }
+      });
+      // this.$router.push({path:'/index'});
     },
 
-    resign() {}
+    toSign() {
+      this.$router.push({ path: "/sign" });
+    }
   }
 };
 </script>
@@ -61,14 +87,5 @@ export default {
   top: 25%;
   bottom: 25%;
   /* background-color: blue; */
-}
-
-.content-sign {
-  position: absolute;
-  left: 30%;
-  right: 30%;
-  top: 25%;
-  bottom: 25%;
-  /* background-color:chocolate; */
 }
 </style>
