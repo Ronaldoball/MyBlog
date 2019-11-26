@@ -56,7 +56,7 @@ export default {
             message: "登录成功！",
             type: "success"
           });
-          this.$router.push({ path: "/index" });
+          this.$router.push({ path: "/index", query: {username: this.loginForm.name}});
         } else if (data.result === "passwordError") {
           this.$message({
             message: "密码输入错误，请重新输入！",
@@ -73,7 +73,7 @@ export default {
     },
 
     toSign() {
-      this.$router.push({ path: "/sign" });
+      this.$router.push({ path: "/sign"});
     }
   }
 };

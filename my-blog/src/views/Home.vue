@@ -18,7 +18,9 @@
         </div>
       </div>
     </div>
-    <div class="mian-content"></div>
+    <div class="mian-content">
+      <div class="content-msg" v-html="Msg"></div>
+    </div>
   </div>
 </template>
 
@@ -31,7 +33,8 @@ export default {
   },
   data() {
     return {
-      // Msg: "",
+      Msg: "",
+      username: "",
       TabList: ["首页", "关于", "Blog", "联系"],
       imgSrc:
         "http://www.onegreen.net/QQ/UploadFiles/201301/2013010610372053.jpg"
@@ -53,14 +56,21 @@ export default {
       } else if (data === 1) {
         this.Msg = "";
       } else if (data === 2) {
-        this.$api.getJSON().then(data => {
-          this.Msg = data.Msg;
+        let data = {
+          username: this.username
+        };
+        this.$api.getMsg(data).then(data => {
+          this.Msg = data.msg;
         });
       } else if (data === 3) {
         this.Msg = "";
-        this.$router.push({ path: "/editor" });
+        this.$router.push({ path: "/editor", query: {username: this.username}});
       }
     }
+  },
+
+  mounted() {
+    this.username = this.$route.query.username;
   }
 };
 </script>

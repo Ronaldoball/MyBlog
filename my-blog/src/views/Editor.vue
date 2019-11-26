@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+    <!-- <div v-html="strHtml"></div> -->
     <TinymceEditor
       @input="getInfo"
       v-model="msg"
@@ -23,14 +24,22 @@ export default {
   },
   data() {
     return {
+      username: "",
+      strHtml: "",
       msg: "",
       disabled: false
     };
   },
 
+  mounted() {
+    this.username = this.$route.query.username;
+  },
+
   methods: {
     getInfo(data) {
-      console.log(data);
+      let content = data;
+      this.strHtml = data;
+      console.log(content);
     },
 
     onClick(e, editor) {
@@ -43,7 +52,21 @@ export default {
       this.$refs.editor.clear();
     },
 
-    submit() {}
+    submit() {
+      let data = {
+        username: this.username,
+        msg: this.strHtml
+      };
+      this.$api.submitMsg(data).then(data => {
+        if (data.result === "success") {
+          this.$message({
+            message: "提交成功！",
+            type: "success"
+          });
+          this.$router.push({ path: "/index", query: {username: this.username}});
+        }
+      });
+    }
   }
 };
 </script>
