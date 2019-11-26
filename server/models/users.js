@@ -9,7 +9,8 @@ var UserSchema = new mongoose.Schema({
     description : { type: String},
     email       : { type: String },
     github      : { type: String },
-    time        : { type:Date, default:Date.now }
+    time        : { type:Date, default:Date.now },
+    msg         : { type: String }
 });
 //创建Model
 var UserModel = db.model("users", UserSchema );
