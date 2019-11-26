@@ -11,6 +11,7 @@ var jsonRouter = require("./routes/json");
 var MsgRouter = require("./routes/msg");
 var loginRouter = require("./routes/login");
 var signRouter = require("./routes/sign");
+var submitMsgRouter = require("./routes/submitMsg");
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use("/users", usersRouter);
 app.use("/getMsg", MsgRouter);
 app.use("/login", loginRouter);
 app.use("/submitInfo", signRouter);
+app.use("/submitMsg", submitMsgRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
