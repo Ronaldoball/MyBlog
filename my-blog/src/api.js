@@ -22,9 +22,9 @@ instance.interceptors.response.use(({
 });
 
 export default {
-  getJSON() {
-    return instance.get("getJson");
-  },
+  // getJSON(data) {
+  //   return instance.get("getJson", data);
+  // },
 
   getMsg(data) {
     return instance.post("getMsg", data);
@@ -36,5 +36,9 @@ export default {
 
   submitInfo(data) {
     return instance.post("submitInfo", data);
+  },
+
+  submitMsg(data) {
+    return instance.post("submitMsg", data);
   }
 }
