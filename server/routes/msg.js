@@ -8,23 +8,13 @@ router.post("/", function(req, res, next) {
   console.log("post请求：参数", query);
 
   var user = {
-    username: query.username,
-    password: query.password,
-    email: query.email
+    username: query.username
   };
-  // api.save(user)
-  //       .then(result => {
-  //           console.log(result);
-  //       });
 
-  api.find({}).then(result => {
+  api.find({username: user.username}).then(result => {
     console.log(result);
     res.json(result[0]);
   });
-
-  //res.json(retData);
-
-  // res.send('hello , world');
 });
 
 module.exports = router;
