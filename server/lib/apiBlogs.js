@@ -1,4 +1,4 @@
-var Model = require("../models/users");
+var Model = require("../models/blogs");
 
 module.exports = {
   /**
