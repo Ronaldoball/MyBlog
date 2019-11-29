@@ -11,7 +11,7 @@ router.post("/", function(req, res, next) {
   if ("" === query.blogId) {
     var blogId = require("node-uuid").v4();
     var time = new Date().toGMTString();
-    let data = {
+    var data = {
       username: query.username,
       userId: query.userId,
       blogId: blogId,
