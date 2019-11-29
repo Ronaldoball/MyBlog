@@ -19,7 +19,16 @@
       </div>
     </div>
     <div class="mian-content">
-      <div class="content-msg" v-html="Msg"></div>
+      <div class="content-msg">
+        <div
+          class="list-blog"
+          v-for="(item, index) in BlogDatas"
+          :key="index"
+          @click="blogChange(index)"
+        >
+          <div>{{item.title}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -33,15 +42,26 @@ export default {
   },
   data() {
     return {
+      userId: "",
+      BlogDatas: [],
       Msg: "",
       username: "",
-      TabList: ["首页", "关于", "Blog", "联系"],
+      TabList: ["首页", "关于", "Blog", "写博客"],
       imgSrc:
         "http://www.onegreen.net/QQ/UploadFiles/201301/2013010610372053.jpg"
     };
   },
 
   methods: {
+    blogChange(index) {
+      console.log(this.BlogDatas[index]);
+      let data = this.BlogDatas[index];
+      this.$router.push({
+        path: "/blogContent",
+        query: data
+      });
+    },
+
     retClick(data) {
       //console.log(data);
       if (data === 0) {
@@ -56,26 +76,44 @@ export default {
       } else if (data === 1) {
         this.Msg = "";
       } else if (data === 2) {
-        let data = {
-          username: this.username
-        };
-        this.$api.getMsg(data).then(data => {
-          this.Msg = data.msg;
-        });
+        // let data = {
+        //   username: this.username
+        // };
+        // this.$api.getMsg(data).then(data => {
+        //   this.Msg = data.msg;
+        // });
       } else if (data === 3) {
         this.Msg = "";
-        this.$router.push({ path: "/editor", query: {username: this.username}});
+        this.$router.push({
+          path: "/editor",
+          query: { username: this.username, blogId: "", userId: this.userId }
+        });
       }
     }
   },
 
   mounted() {
     this.username = this.$route.query.username;
+    let data = {
+      username: this.username
+    };
+    this.$api.getMsg(data).then(data => {
+      this.userId = data.userId;
+      //this.Msg = data.msg;
+      this.BlogDatas = data.result;
+    });
   }
 };
 </script>
 
 <style scoped>
+.list-blog {
+  width: 100%;
+  height: 100px;
+  border-bottom: 1px dashed rgb(94, 19, 19);
+  cursor: pointer;
+}
+
 .info {
   padding-bottom: 5px;
   padding-top: 5px;
@@ -143,9 +181,9 @@ export default {
 .content-msg {
   position: absolute;
   left: 100px;
-  right: 100px;
-  top: 100px;
-  bottom: 100px;
+  right: 0;
+  top: 80px;
+  bottom: 20px;
   overflow: auto;
 }
 </style>
